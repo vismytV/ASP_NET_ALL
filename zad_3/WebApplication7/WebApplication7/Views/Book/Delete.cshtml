@@ -1,0 +1,23 @@
+﻿@model Book
+
+<h3>Ви дійсно хочете видалити книгу: @Model.Title?</h3>
+
+<form method="post" asp-action="Delete">
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+</form>
+
+</br>
+
+@{
+    var qqq = string.Equals(ViewBag.SearchMessage, "Список книг", StringComparison.Ordinal);
+    if (!qqq)
+    {
+        <a href="@Url.Action("Index", "Book",new { searchString =@ViewBag.SearchMessage})">Cancel</a>
+    }
+    else
+    {
+        int q = 1;
+        <a href="@Url.Action("Index", "Book")">Cancel</a>
+    }
+}
+

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<WebApplication7.Models.Author>  
+
+@{
+    // Перевірка, чи є повідомлення в TempData якщо файла не існує
+    if (TempData["SearchMessage1"] != null)
+    {
+        var searchMessage1 = TempData["SearchMessage1"].ToString();
+        <script>
+            alert(@Json.Serialize(searchMessage1));
+        </script>
+    }
+}
+
+<h2>Додати автора</h2>
+
+
+<a href="@Url.Action("Index", "Book")">Список книг</a>
+
+<h3>Список авторів</h3>
+<table class="table table-bordered table-striped" style="margin-top:10px;">
+    <thead>
+        <tr>
+            <th>Автор</th>
+            <th>Дата народження</th>
+            <th>Біографія (стисло)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td>@author.Name</td>
+                <td>@author.DateTime.ToString("dd.MM.yyyy")</td>
+                <td>@author.Biography</td>
+            </tr>
+        }
+        <form asp-action="CreateAuthor" method="post">
+        <tr>
+            <td><input type="text" id="Name" name="Name" required /></td>
+            <td><input type="date" id="DateTime" name="DateTime" required /></td>
+            <td><input type="text" id="Biography" name="Biography" required size="100" /></td>
+        </tr>
+        <tr class="table">
+            <td colspan="3"><button type="submit" class="btn btn-success">Додати</button></td>
+            
+        </tr>
+        
+        </form>
+    </tbody>
+</table>

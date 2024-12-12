@@ -1,0 +1,42 @@
+﻿@model Book
+
+<h2>Додати книгу</h2>
+<a href="@Url.Action("Index", "Book")">Список книг</a>
+<form asp-action="Create" method="post">
+    <table class="table">
+        <th>Назва</th>
+        <th>Автор</th>
+        <th>Жанр</th>
+        <th>Дата виходу</th>
+        <th>Ціна</th>
+        <th>Кільк.сторінок</th>
+        <tbody>
+            <tr>
+                <td><input type="text" required asp-for="Title" /></td>
+                <td>
+                    <select name="AuthorId" required>
+                        @foreach (var author in ViewData["Authors"] as List<Author>)
+                        {
+                            <option value="@author.Id" asp-for="AuthorId">@author.Name</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <select name="GanrId" required>
+                        @foreach (var ganr in ViewData["Ganr"] as List<Ganr>)
+                        {
+                            <option value="@ganr.Id" asp-for="GanrId">@ganr.Name</option>
+                        }
+                    </select>
+
+                </td>
+                <td><input type="date" asp-for="DateTime" required />
+                <td><input type="number" required asp-for="Price" /></td>
+                <td><input type="number" required asp-for="Pages" /></td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-success" type="submit">Save Book</button>
+</form>

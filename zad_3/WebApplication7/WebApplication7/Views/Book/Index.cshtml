@@ -1,0 +1,73 @@
+﻿@model IEnumerable<WebApplication7.Models.Book>
+@{
+    string q,q1;
+    var qqq1 = string.Equals(ViewBag.SearchMessage, "Список книг", StringComparison.Ordinal);
+    if (!qqq1)
+    {
+        q = $"Результати пошуку за запитом: \"{ViewBag.SearchMessage}\"";
+        
+            <h2>@q</h2>
+        <a href="@Url.Action("Index", "Book")">Список книг</a>
+    }
+    else
+    {
+        q = ViewBag.SearchMessage;
+
+            <form method="get" action="@Url.Action("Index", "Book")" style="display: flex; align-items: center;">
+                <h2>@q</h2>
+                <input type="text" name="searchString" placeholder="Search books..." style="margin-left:50px" />
+                <button type="submit">Search</button>
+            </form>
+
+            <a href="@Url.Action("Create", "Book")">Додати книгу</a>
+            <a href="@Url.Action("CreateAuthor", "Author")" style="margin-left: 20px">Додати автора</a>
+    }
+
+    // Перевірка, чи є повідомлення в TempData якщо файла не існує
+    if (TempData["SearchMessage1"] != null)
+    {
+        var searchMessage1 = TempData["SearchMessage1"].ToString();
+        <script>
+            alert(@Json.Serialize(searchMessage1));
+        </script>
+    }
+
+}
+
+<table class="table table-bordered table-striped" style="margin-top:10px;">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Автор</th>
+            <th>Жанр</th>
+            <th>Дата виходу</th>
+            <th>Ціна</th>
+            <th>Кільк.сторінок</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Author.Name</td>
+                <td>@book.Ganr.Name</td>
+                <td>@book.DateTime.ToString("dd.MM.yyyy")</td>
+                <td>@book.Price</td>
+                <td>@book.Pages</td>
+                <td>
+                    <a class="btn btn-warning" href="@Url.Action("Edit", "Book", new { id = book.Id })">Edit</a> |
+                    <a class="btn btn-danger" href="@Url.Action("Delete", "Book", new { id = book.Id,Temp=@ViewBag.SearchMessage })">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    if (Model.Count() == 0)
+    {
+            <h3>Не має жодної книги</h3>
+    }
+}
