@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WebApplication4.Models.Manager>
+@{
+}
+
+<h2>Список менеджерів</h2>
+<a href="@Url.Action("Create", "Manager")">Додати менеджера</a>
+<a href="@Url.Action("Index", "Employee")" style="margin-left: 50px;">Список робітників</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ім'я</th>
+            <th>Прізвище</th>
+            <th>Дата народження</th>
+            <th>Кільк.підлеглих</th>
+            <th>Заробітна плата</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.FirstName</td>
+                <td>@employee.LastName</td>
+                <td>@employee.DenNarodg.Date.ToString("yyyy-MM-dd")</td>
+                <td>@employee.EmployeeCount</td>
+                <td>@employee.Zarplata</td>
+            </tr>
+        }
+    </tbody>
+</table>

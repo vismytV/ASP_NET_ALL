@@ -1,0 +1,51 @@
+﻿@model WebApplication4.Models.Employee
+
+@{
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @errorMessage
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="pysto()" >
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<h2>Додати нового робітника</h2>
+
+<form asp-action="Create" method="post">
+    <div >
+        <label>Ім'я</label>
+        <input type="text" asp-for="FirstName" class="form-control" />
+        
+    </div>
+
+    <div >
+        <label >Прізвище</label>
+        <input type="text" asp-for="LastName" class="form-control" />
+    </div>
+
+    <div >
+        <label >Дата народження</label>
+        <input type="date" asp-for="DenNarodg" class="form-control" />
+    </div>
+
+    <div >
+        <label >Зарплата</label>
+        <input type="number" asp-for="Zarplata" class="form-control" />    
+    </div>
+
+    <button type="submit" class="btn btn-primary">Додати</button>
+</form>
+
+<a href="@Url.Action("Index", "Employee")">Повернутися до списку робітників</a>
+
+<script>
+    function pysto() {
+        document.location.href = "Create";
+    }
+</script>
