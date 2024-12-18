@@ -1,0 +1,240 @@
+﻿@model IEnumerable<WebApplication13.Models.Car>
+
+@{
+	var infoJson = ViewData["InfoJson"] as List<WebApplication13.Models.InfoJson> ?? new List<WebApplication13.Models.InfoJson>();
+	var allAvto = infoJson.Where(i => i.Name == "allAvto").ToList();
+	var descriptions = infoJson.Select(i => i.Description).ToList();
+}
+
+
+<style>
+	iframe {
+		font-family: monospace;
+		font-size: 10px;
+		margin-top:5px;
+	}
+	img{
+		cursor: pointer;
+	}
+</style>
+
+<script src="/js/Car.js"></script>
+
+<table class=" table" width="1800px">
+	<thead>
+	 <tr>
+			<td colspan="4" align="center" style="font-size:16px">
+				<strong>Приклади використання API даного сайту (сайт про автомобілі)</strong></td>
+	</tr>
+	<tr>
+			<td align ="center" width="100px"><strong>Method</strong></td>
+			<td align="center" width="300px"><strong>Link</strong></td>
+			<td align="center" ><strong>Info</strong></td>
+			<td align="center" width="300px"><strong>Json</strong></td>
+	</tr>
+	</thead>
+	<tbody>
+		<tr id="tr1" >
+			<td>
+				<a style="width:80px" class="btn btn-primary" onclick="pokaz_menu('info_all_avto','pokaz_all_avto')">GET</a>
+				</td>
+			<td align="center">
+				/car
+			</td>
+			<td>
+				Перегляд всих автомобілів<br /><br />
+				<span id="all_1" style="display:none">(Можно в браузері до URL сайта додати <strong>Link</strong>)</span>
+			</td>
+			<td style="background-color:azure">
+				<img id="ris_all" src="/img/max.png" width="25px" onclick="razmer('all',id)"  /> 
+				Response body
+				
+				<span id="all_2" style="display:none">@Html.Raw(descriptions[0])</span>
+			</td>
+		</tr>
+
+		<tr id="info_all_avto" style="background-color:antiquewhite; display:none">
+			<td colspan="4">
+				<a style="width:80px" class="btn btn-secondary" onclick="pokaz_menu('info_all_avto','pokaz_all_avto')">Cancel</a>
+				<strong><em style="margin-left:50px">Response body</em></strong>
+				<span style="margin-left:300px"><strong>URL:</strong></span>
+				<span id="url_all"></span>
+				<br />
+			    <div>
+					<iframe id="pokaz_all_avto" width="100%" ></iframe>
+				</div>
+			</td>
+		</tr>
+
+		
+
+		<tr id="tr2">
+			<td>
+				<a style="width:80px" class="btn btn-primary" onclick="pokaz_menu('info_kol_avto','pokaz_kol_avto')">GET</a>
+			</td>
+			<td align="center">
+				/car
+			</td>
+			<td>
+				Перегляд автомобілів з певного діапазану <br /><br />
+				<span id="kol_1" style="display:none">
+					(Можно в браузері до URL сайта додати
+				<strong>Link</strong><strong><em>?startNom=</em></strong>початок діапазону
+					<strong><em>&kol=</em></strong>кількість автомобілів для показу)
+				</span>
+			</td>
+			<td style="background-color:azure">
+				<img id="ris_kol" src="/img/max.png" width="25px" onclick="razmer('kol',id)" />
+				Response body<br />
+				<span id="kol_2" style="display:none">@Html.Raw(descriptions[0])</span>
+			</td>
+		</tr>
+		<tr id="info_kol_avto" style="background-color:antiquewhite; display:none">
+			<td colspan="4">
+				<a style="width:80px" class="btn btn-secondary" onclick="pokaz_menu('info_kol_avto','pokaz_kol_avto')">Cancel</a>
+				<strong><em style="margin-left:50px">Response body</em></strong>
+				<span style="margin-left:300px"><strong>URL:</strong></span>
+				<span id="url_kol"></span>
+				<br />
+				<span>Введіть початок діапазону</span>
+				<input id="startNom" type="number" required />
+
+				<span>Введіть кількість для показу </span>
+				<input id="kol" type="number" required />
+
+				<div>
+					<iframe id="pokaz_kol_avto" width="100%"></iframe>
+				</div>
+				<div>
+					<button class="btn btn-light" style="width:100%; margin-top:10px;" type="submit" onclick="info_kol_avto1()">Execute</button>
+				</div>
+			</td>
+		</tr>
+
+
+
+		<tr id="tr3">
+			<td>
+				<a style="width:80px" class="btn btn-success" onclick="pokaz_menu('new_avto')">POST</a>
+			</td>
+			<td align="center">
+				/car
+			</td>
+			<td>
+				Додати новий автомобіль<br /><br />
+				<span id="new_1"></span>
+			</td>
+			<td style="background-color:azure">
+				<img id="ris_new" src="/img/max.png" width="25px" onclick="razmer('new',id)" />
+				Request body
+				<span id="new_2" style="display:none">@Html.Raw(descriptions[1])</span>
+			</td>
+		</tr>
+		
+		<form id="form_newAvto" asp-action="Index" method="post">
+		<tr id="new_avto" style="background-color:antiquewhite; display:none">
+		<td colspan="4" >
+				<a style="width:80px" class="btn btn-secondary" onclick="pokaz_menu('new_avto')">Cancel</a>
+			<strong><em style="margin-left:50px">Request body</em></strong>
+				
+				<br />
+			<span>Введіть бренд</span>
+				<input name="Brand" id="Brand" type="text" required />
+
+				<span>Введіть модель</span>
+				<input name="Model" id="Model" type="text" required />
+
+				<span>Введіть колір</span>
+				<input name="Color" id="Color" type="text" required />
+
+				<span>Введіть рік випуску</span>
+				<input name="Year" id="Year" type="number" required />
+
+			<div>
+				<button class="btn btn-light" style="width:100%; margin-top:10px;" type="submit" >Execute</button>
+			</div>
+		</td>
+		</tr>
+		</form>
+
+		<tr id="tr4">
+			<td>
+				<a style="width:80px" class="btn btn-warning" onclick="pokaz_menu('edit_avto')">PUT</a>
+			</td>
+			<td align="center">/car</td>
+			<td>
+					Редагувати всі дані автомобіля за його Id<br/><br/>
+					<span id="edit_1"></span>
+			</td>
+			<td style="background-color:azure">
+				<img id="ris_edit" src="/img/max.png" width="25px" onclick="razmer('edit',id)" />
+				GET Id Request body
+				<span id="edit_2" style="display:none">@Html.Raw(descriptions[1])</span>
+			</td>
+			
+		</tr>
+		<form id="editAvto">
+		<tr id="edit_avto" style="background-color:antiquewhite;display:none">
+			<td colspan="4">
+				<a style="width:80px" class="btn btn-secondary" onclick="pokaz_menu('edit_avto')">Cancel</a>
+				<strong><em style="margin-left:50px">Request body</em></strong>
+				<br />
+
+				<span>Введіть ID авто:</span>
+				<input id="Id_poisk" type="number" style="width: 10ch;" required />
+				<span>бренд:</span>
+				<input id="Brand_poisk" type="text" required />
+
+				<span>модель:</span>
+				<input id="Model_poisk" type="text" required />
+
+				<span>колір:</span>
+				<input id="Color_poisk" type="text" required />
+			
+				<span>рік випуску:</span>
+				<input id="Year_poisk" type="number" style="width: 10ch;" required />
+
+				<div>
+					<button class="btn btn-light" style="width:100%; margin-top:10px;" type="submit" onclick="edit_avto1('PUT','edit_avto')">Execute</button>
+				</div>
+			</td>
+        </tr>
+			 
+		</tr>
+		</form>
+		
+
+
+
+		<tr>
+			<td>
+				<a style="width:80px" class="btn btn-danger" onclick="pokaz_menu('del_avto')">DELETE</a>
+			</td>
+			<td>
+				/car
+			</td>
+			<td>
+				Видалення авто
+			</td>
+			<td>
+				
+			</td>
+		</tr>
+		<tr id="del_avto" style="background-color:antiquewhite;display:none">
+			<td colspan="4">
+				<a style="width:80px" class="btn btn-secondary" onclick="pokaz_menu('del_avto')">Cancel</a>
+				<strong><em style="margin-left:50px">Request body</em></strong>
+				<br />
+
+				<span>Введіть ID авто:</span>
+				<input id="Id_poisk_del" type="number" style="width: 10ch;" required />
+				<div>
+					<button class="btn btn-light" style="width:100%; margin-top:10px;" type="submit" 
+					onclick="edit_avto1('DELETE','del_avto')">Execute</button>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+	
+</table>
+
